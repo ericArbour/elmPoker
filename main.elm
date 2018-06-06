@@ -1,13 +1,18 @@
 module Main exposing (..)
 
+import Array exposing (..)
+import HighCard exposing (highCard)
 import Html exposing (..)
-import Html.Attributes exposing (..)
+
+
+straightOrder : Array String
+straightOrder =
+    Array.fromList [ "A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A" ]
 
 
 deck : List String
 deck =
-    [ "1H"
-    , "2H"
+    [ "2H"
     , "3H"
     , "4H"
     , "5H"
@@ -20,7 +25,6 @@ deck =
     , "QH"
     , "KH"
     , "AH"
-    , "1D"
     , "2D"
     , "3D"
     , "4D"
@@ -34,7 +38,6 @@ deck =
     , "QD"
     , "KD"
     , "AD"
-    , "1S"
     , "2S"
     , "3S"
     , "4S"
@@ -48,7 +51,6 @@ deck =
     , "QS"
     , "KS"
     , "AS"
-    , "1C"
     , "2C"
     , "3C"
     , "4C"
@@ -65,9 +67,30 @@ deck =
     ]
 
 
+hand : List String
+hand =
+    [ "6H"
+    , "TH"
+    , "AS"
+    , "5C"
+    , "JH"
+    ]
+
+
+hand2 : List String
+hand2 =
+    [ "JC"
+    , "AC"
+    , "QC"
+    , "KC"
+    , "TC"
+    ]
+
+
+test =
+    highCard hand
+
+
 main =
-    ul []
-        (List.map
-            (\card -> li [] [ text card ])
-            deck
-        )
+    div []
+        [ text (toString test) ]

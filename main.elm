@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Array exposing (..)
-import HighCard exposing (highCard)
+import EvaluateHands exposing (evaluateHands)
 import Html exposing (..)
 
 
@@ -67,28 +67,28 @@ deck =
     ]
 
 
-hand : List String
-hand =
-    [ "6H"
-    , "TH"
-    , "AS"
-    , "5C"
+hand1 : List String
+hand1 =
+    [ "TH"
     , "JH"
+    , "AD"
+    , "KH"
+    , "AH"
     ]
 
 
 hand2 : List String
 hand2 =
-    [ "JC"
-    , "AC"
-    , "QC"
+    [ "TC"
+    , "JC"
+    , "KS"
     , "KC"
-    , "TC"
+    , "AC"
     ]
 
 
 test =
-    highCard hand
+    evaluateHands hand1 hand2
 
 
 main =

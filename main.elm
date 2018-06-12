@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Array exposing (..)
-import EvaluateHands exposing (evaluateHands)
+import CompareHands exposing (compareHands)
 import Html exposing (..)
 
 
@@ -69,26 +69,26 @@ deck =
 
 hand1 : List String
 hand1 =
-    [ "TH"
-    , "JH"
-    , "AD"
+    [ "8H"
+    , "TH"
+    , "JD"
+    , "QH"
     , "KH"
-    , "AH"
     ]
 
 
 hand2 : List String
 hand2 =
-    [ "TC"
-    , "JC"
-    , "KS"
-    , "KC"
+    [ "6C"
+    , "4S"
+    , "3S"
+    , "2C"
     , "AC"
     ]
 
 
 test =
-    evaluateHands hand1 hand2
+    compareHands hand1 hand2
 
 
 main =

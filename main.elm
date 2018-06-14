@@ -69,9 +69,9 @@ deck =
 
 hand1 : List String
 hand1 =
-    [ "2S"
-    , "2C"
+    [ "3S"
     , "3C"
+    , "2C"
     , "4C"
     , "5C"
     ]
@@ -79,11 +79,11 @@ hand1 =
 
 hand2 : List String
 hand2 =
-    [ "AH"
+    [ "2H"
+    , "2D"
+    , "AD"
     , "KD"
     , "QD"
-    , "JD"
-    , "9D"
     ]
 
 

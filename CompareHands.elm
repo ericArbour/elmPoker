@@ -9,19 +9,18 @@ cardRank =
         [ ( "2", 1 ), ( "3", 2 ), ( "4", 3 ), ( "5", 4 ), ( "6", 7 ), ( "7", 12 ), ( "8", 21 ), ( "9", 38 ), ( "T", 75 ), ( "J", 141 ), ( "Q", 273 ), ( "K", 530 ), ( "A", 1028 ) ]
 
 
+getRank : String -> Int
+getRank face =
+    let
+        value =
+            get face cardRank
+    in
+    case value of
+        Just number ->
+            number
 
--- getRank : String -> Int
--- getRank card =
---     let
---         value =
---             get (String.left 1 card) cardRank
---     in
---     case value of
---         Just number ->
---             number
---
---         Nothing ->
---             0
+        Nothing ->
+            0
 
 
 getFace : String -> String
@@ -47,7 +46,15 @@ removeDups string list =
         string :: list
 
 
-transform : List String -> Dict String Int
+calculate : String -> Int -> Int -> Int
+calculate face count accum =
+    if count == 2 then
+        ((getRank face - 1) * 1831) + 2002 + accum
+    else
+        getRank face + accum
+
+
+transform : List String -> Int
 transform hand =
     let
         faces =
@@ -66,22 +73,30 @@ transform hand =
 
         countLookup =
             Dict.fromList (List.map2 (,) uniqueFaces faceCount)
+
+        value =
+            Dict.foldl calculate 0 countLookup
     in
-    countLookup
+    value
 
 
 compareHands : List String -> List String -> Order
 compareHands hand1 hand2 =
     let
-        countDim1 =
+        value1 =
             Debug.log "hand1"
                 (transform hand1)
 
-        countDim2 =
+        value2 =
             Debug.log "hand2"
                 (transform hand2)
     in
-    EQ
+    if value1 > value2 then
+        GT
+    else if value2 > value1 then
+        LT
+    else
+        EQ
 
 
 

@@ -3,8 +3,8 @@ module CompareHands exposing (compareHands)
 import Dict exposing (..)
 
 
-cardRank : Dict String Int
-cardRank =
+cardValue : Dict String Int
+cardValue =
     Dict.fromList
         [ ( "2", 1 ), ( "3", 2 ), ( "4", 3 ), ( "5", 4 ), ( "6", 7 ), ( "7", 12 ), ( "8", 21 ), ( "9", 38 ), ( "T", 75 ), ( "J", 141 ), ( "Q", 273 ), ( "K", 530 ), ( "A", 1028 ) ]
 
@@ -29,8 +29,8 @@ dictLookup dict face =
             0
 
 
-getRank =
-    dictLookup cardRank
+getValue =
+    dictLookup cardValue
 
 
 getIndex =
@@ -65,7 +65,7 @@ calculate face count accum =
     if count == 2 then
         (getIndex face * 1826) + 2002 + accum
     else
-        getRank face + accum
+        getValue face + accum
 
 
 transform : List String -> Int

@@ -67,23 +67,21 @@ deck =
     ]
 
 
-hand1 : List String
 hand1 =
-    [ "3S"
-    , "3C"
+    [ "TS"
     , "2C"
+    , "3C"
     , "4C"
     , "5C"
     ]
 
 
-hand2 : List String
 hand2 =
-    [ "2H"
-    , "2D"
-    , "AD"
-    , "KD"
-    , "QD"
+    [ "9H"
+    , "4D"
+    , "6D"
+    , "7D"
+    , "8H"
     ]
 
 

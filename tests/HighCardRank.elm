@@ -2,13 +2,12 @@ module HighCardRank exposing (..)
 
 import CompareHands exposing (..)
 import Expect exposing (Expectation)
-import Fuzz exposing (Fuzzer, int, list, string)
 import Test exposing (..)
 
 
 highCardRank : Test
 highCardRank =
-    describe "High Card Rank"
+    describe "weakest of each high card hand against the strongest of the card below it"
         [ test "weakest ace high beats strongest king high" <|
             \_ ->
                 let

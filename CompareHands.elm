@@ -9,11 +9,17 @@ cardRank =
         [ ( "2", 1 ), ( "3", 2 ), ( "4", 3 ), ( "5", 4 ), ( "6", 7 ), ( "7", 12 ), ( "8", 21 ), ( "9", 38 ), ( "T", 75 ), ( "J", 141 ), ( "Q", 273 ), ( "K", 530 ), ( "A", 1028 ) ]
 
 
-getRank : String -> Int
-getRank face =
+cardIndex : Dict String Int
+cardIndex =
+    Dict.fromList
+        [ ( "2", 0 ), ( "3", 1 ), ( "4", 2 ), ( "5", 3 ), ( "6", 4 ), ( "7", 5 ), ( "8", 6 ), ( "9", 7 ), ( "T", 8 ), ( "J", 9 ), ( "Q", 10 ), ( "K", 11 ), ( "A", 12 ) ]
+
+
+dictLookup : Dict String Int -> String -> Int
+dictLookup dict face =
     let
         value =
-            get face cardRank
+            get face dict
     in
     case value of
         Just number ->
@@ -21,6 +27,14 @@ getRank face =
 
         Nothing ->
             0
+
+
+getRank =
+    dictLookup cardRank
+
+
+getIndex =
+    dictLookup cardIndex
 
 
 getFace : String -> String
@@ -49,7 +63,7 @@ removeDups string list =
 calculate : String -> Int -> Int -> Int
 calculate face count accum =
     if count == 2 then
-        ((getRank face - 1) * 1831) + 2002 + accum
+        (getIndex face * 1826) + 2002 + accum
     else
         getRank face + accum
 
@@ -101,4 +115,4 @@ compareHands hand1 hand2 =
 
 
 -- High Card Rank : 1 - 2010 points. EQ: Sum card values.
--- Pair : 2011 - x points.
+-- Pair : 2011 - 23920 points. EQ: 2002 + (PFi * 1826) + k

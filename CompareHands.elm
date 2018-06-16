@@ -1,6 +1,7 @@
 module CompareHands exposing (compareHands)
 
 import Dict exposing (..)
+import Tuple exposing (..)
 
 
 cardValue : Dict String Int
@@ -60,25 +61,32 @@ removeDups string list =
         string :: list
 
 
-calcHighCard : String -> Int -> Int -> Int
+calcHighCard : String -> Int -> ( Int, Int ) -> ( Int, Int )
 calcHighCard face count accum =
-    getValue face + accum
+    Tuple.mapFirst (\x -> getValue face + x) accum
 
 
-calcOnePair : String -> Int -> Int -> Int
+calcOnePair : String -> Int -> ( Int, Int ) -> ( Int, Int )
 calcOnePair face count accum =
     if count == 2 then
-        (getIndex face * 1826) + 2002 + accum
+        Tuple.mapFirst (\x -> (getIndex face * 1826) + 2002 + x) accum
     else
-        getValue face + accum
+        Tuple.mapFirst (\x -> getValue face + x) accum
 
 
-calcTwoPair : String -> Int -> Int -> Int
+calcTwoPair : String -> Int -> ( Int, Int ) -> ( Int, Int )
 calcTwoPair face count accum =
     if count == 2 then
-        (getIndex face * 1826) + 200200 + accum
+        if Tuple.second accum == 0 then
+            let
+                incrAccum =
+                    Tuple.mapSecond (\x -> x + 1) accum
+            in
+            Tuple.mapFirst (\x -> (getIndex face * 1028) + x) incrAccum
+        else
+            Tuple.mapFirst (\x -> (getIndex face * 13364) + 24858 + x) accum
     else
-        getValue face + accum
+        Tuple.mapFirst (\x -> getValue face + x) accum
 
 
 countPairs : Dict String Int -> Int
@@ -120,11 +128,11 @@ transform hand =
 
         value =
             if pairCount == 2 then
-                Dict.foldl calcTwoPair 0 countLookup
+                Tuple.first (Dict.foldl calcTwoPair ( 0, 0 ) countLookup)
             else if pairCount == 1 then
-                Dict.foldl calcOnePair 0 countLookup
+                Tuple.first (Dict.foldl calcOnePair ( 0, 0 ) countLookup)
             else
-                Dict.foldl calcHighCard 0 countLookup
+                Tuple.first (Dict.foldl calcHighCard ( 0, 0 ) countLookup)
     in
     value
 
@@ -150,4 +158,5 @@ compareHands hand1 hand2 =
 
 
 -- High Card Rank : 1 - 2010 points. EQ: Sum card values.
--- Pair : 2011 - 23920 points. EQ: 2002 + (PFi * 1826) + k
+-- One Pair : 2011 - 24858 points. EQ: 2002 + (PFi * 1826) + k
+-- Two Pair: 24859 - x points. EQ: const + (PF1i * f1) + (PF2i * f2) + k

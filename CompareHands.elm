@@ -60,12 +60,38 @@ removeDups string list =
         string :: list
 
 
-calculate : String -> Int -> Int -> Int
-calculate face count accum =
+calcHighCard : String -> Int -> Int -> Int
+calcHighCard face count accum =
+    getValue face + accum
+
+
+calcOnePair : String -> Int -> Int -> Int
+calcOnePair face count accum =
     if count == 2 then
         (getIndex face * 1826) + 2002 + accum
     else
         getValue face + accum
+
+
+calcTwoPair : String -> Int -> Int -> Int
+calcTwoPair face count accum =
+    if count == 2 then
+        (getIndex face * 1826) + 200200 + accum
+    else
+        getValue face + accum
+
+
+countPairs : Dict String Int -> Int
+countPairs hand =
+    Dict.foldl
+        (\face count accum ->
+            if count == 2 then
+                accum + 1
+            else
+                accum
+        )
+        0
+        hand
 
 
 transform : List String -> Int
@@ -88,8 +114,17 @@ transform hand =
         countLookup =
             Dict.fromList (List.map2 (,) uniqueFaces faceCount)
 
+        pairCount =
+            Debug.log "count lookup"
+                (countPairs countLookup)
+
         value =
-            Dict.foldl calculate 0 countLookup
+            if pairCount == 2 then
+                Dict.foldl calcTwoPair 0 countLookup
+            else if pairCount == 1 then
+                Dict.foldl calcOnePair 0 countLookup
+            else
+                Dict.foldl calcHighCard 0 countLookup
     in
     value
 

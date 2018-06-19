@@ -247,5 +247,28 @@ onePair =
                         , "AH"
                         ]
                 in
+                Expect.equal GT
+                    (compareHands hand1 hand2)
+        , test
+            "second pair kicker beats weaker second pair kicker with stronger single card kicker"
+          <|
+            \_ ->
+                let
+                    hand1 =
+                        [ "KS"
+                        , "KC"
+                        , "3C"
+                        , "3C"
+                        , "2C"
+                        ]
+
+                    hand2 =
+                        [ "KH"
+                        , "KD"
+                        , "2D"
+                        , "2D"
+                        , "AH"
+                        ]
+                in
                 Expect.equal GT (compareHands hand1 hand2)
         ]

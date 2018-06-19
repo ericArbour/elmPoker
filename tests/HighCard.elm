@@ -1,4 +1,4 @@
-module HighCardRank exposing (..)
+module HighCard exposing (..)
 
 import CompareHands exposing (..)
 import Expect exposing (Expectation)
@@ -145,54 +145,6 @@ highCardRank =
                         , "4D"
                         , "5D"
                         , "6H"
-                        ]
-                in
-                Expect.equal GT (compareHands hand1 hand2)
-        , test "weakest seven high beats strongest six high" <|
-            \_ ->
-                let
-                    hand1 =
-                        [ "7S"
-                        , "2C"
-                        , "3C"
-                        ]
-
-                    hand2 =
-                        [ "6H"
-                        , "4D"
-                        , "5D"
-                        ]
-                in
-                Expect.equal GT (compareHands hand1 hand2)
-        , test "weakest six high beats strongest five high" <|
-            \_ ->
-                let
-                    hand1 =
-                        [ "6S"
-                        , "2C"
-                        , "3C"
-                        ]
-
-                    hand2 =
-                        [ "5H"
-                        , "3D"
-                        , "4D"
-                        ]
-                in
-                Expect.equal GT (compareHands hand1 hand2)
-        , test "weakest five high beats strongest four high" <|
-            \_ ->
-                let
-                    hand1 =
-                        [ "5S"
-                        , "2C"
-                        , "3C"
-                        ]
-
-                    hand2 =
-                        [ "4H"
-                        , "2D"
-                        , "3D"
                         ]
                 in
                 Expect.equal GT (compareHands hand1 hand2)

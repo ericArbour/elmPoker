@@ -188,4 +188,4 @@ compareHands hand1 hand2 =
 
 -- High Card Rank : 1 - 2010 points. EQ: Sum card values.
 -- One Pair : 2011 - 24858 points. EQ: 2002 + (PFi * 1826) + k
--- Two Pair: 24859 - x points. EQ: 18226 + ((P1i - 1) * (((P1okv - 1) * 13)) + (P2okv * 13) + k
+-- Two Pair: 24859 - x points. EQ: 18226 + ((P1i - 1) * ((P1okv - 1) * 13)) + (P2okv * 13) + k

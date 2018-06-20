@@ -268,4 +268,24 @@ onePair =
                         ]
                 in
                 Expect.equal GT (compareHands hand1 hand2)
+        , test "pair of jacks with higher kicker wins" <|
+            \_ ->
+                let
+                    hand1 =
+                        [ "TS"
+                        , "TC"
+                        , "AC"
+                        , "2C"
+                        , "3C"
+                        ]
+
+                    hand2 =
+                        [ "TH"
+                        , "TD"
+                        , "KD"
+                        , "QD"
+                        , "JH"
+                        ]
+                in
+                Expect.equal GT (compareHands hand1 hand2)
         ]

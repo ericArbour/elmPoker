@@ -16,6 +16,12 @@ threeKVal =
         [ ( "2", 1 ), ( "3", 2 ), ( "4", 3 ), ( "5", 4 ), ( "6", 7 ), ( "7", 12 ), ( "8", 20 ), ( "9", 37 ), ( "T", 67 ), ( "J", 122 ), ( "Q", 224 ), ( "K", 411 ), ( "A", 755 ) ]
 
 
+twoKVal : Dict String Int
+twoKVal =
+    Dict.fromList
+        [ ( "2", 1 ), ( "3", 2 ), ( "4", 3 ), ( "5", 5 ), ( "6", 8 ), ( "7", 13 ), ( "8", 21 ), ( "9", 34 ), ( "T", 55 ), ( "J", 89 ), ( "Q", 144 ), ( "K", 233 ), ( "A", 377 ) ]
+
+
 oneKVal : Dict String Int
 oneKVal =
     Dict.fromList
@@ -26,6 +32,12 @@ cardIndex : Dict String Int
 cardIndex =
     Dict.fromList
         [ ( "2", 0 ), ( "3", 1 ), ( "4", 2 ), ( "5", 3 ), ( "6", 4 ), ( "7", 5 ), ( "8", 6 ), ( "9", 7 ), ( "T", 8 ), ( "J", 9 ), ( "Q", 10 ), ( "K", 11 ), ( "A", 12 ) ]
+
+
+straightIndex : Dict String Int
+straightIndex =
+    Dict.fromList
+        [ ( "A", 0 ), ( "2", 1 ), ( "3", 2 ), ( "4", 3 ), ( "5", 4 ), ( "6", 5 ), ( "7", 6 ), ( "8", 7 ), ( "9", 8 ), ( "T", 9 ), ( "J", 10 ), ( "Q", 11 ), ( "K", 12 ), ( "A", 13 ) ]
 
 
 dictLookup : Dict String Int -> String -> Int
@@ -42,18 +54,27 @@ dictLookup dict face =
             0
 
 
+getFiveKVal : String -> Int
 getFiveKVal =
     dictLookup fiveKVal
 
 
+getThreeKVal : String -> Int
 getThreeKVal =
     dictLookup threeKVal
 
 
+getTwoKVal : String -> Int
+getTwoKVal =
+    dictLookup twoKVal
+
+
+getOneKVal : String -> Int
 getOneKVal =
     dictLookup oneKVal
 
 
+getIndex : String -> Int
 getIndex =
     dictLookup cardIndex
 
@@ -109,11 +130,19 @@ calcTwoPair item accum =
         Tuple.mapFirst (\x -> getOneKVal (Tuple.first item) + x) accum
 
 
-countPairs : List ( String, Int ) -> Int
-countPairs hand =
+calcSet : ( String, Int ) -> ( Int, Int ) -> ( Int, Int )
+calcSet item accum =
+    if Tuple.second item == 3 then
+        Tuple.mapFirst (\x -> (getIndex (Tuple.first item) * 608) + 20105 + x) accum
+    else
+        Tuple.mapFirst (\x -> getTwoKVal (Tuple.first item) + x) accum
+
+
+countMatches : Int -> List ( String, Int ) -> Int
+countMatches qty hand =
     List.foldl
         (\item accum ->
-            if Tuple.second item == 2 then
+            if Tuple.second item == qty then
                 accum + 1
             else
                 accum
@@ -125,6 +154,14 @@ countPairs hand =
 sortFaces : String -> String -> Order
 sortFaces a b =
     compare (getIndex b) (getIndex a)
+
+
+checkStraight : List String -> Maybe String
+checkStraight hand =
+    Debug.log "checkStraight"
+        (List.head
+            hand
+        )
 
 
 transform : List String -> Int
@@ -153,10 +190,18 @@ transform hand =
             List.map2 (,) uniqueFaces faceCount
 
         pairCount =
-            countPairs countLookup
+            countMatches 2 countLookup
+
+        setCount =
+            countMatches 3 countLookup
+
+        isStraight =
+            checkStraight faces
 
         value =
-            if pairCount == 2 then
+            if setCount == 1 then
+                Tuple.first (List.foldl calcSet ( 0, 0 ) countLookup)
+            else if pairCount == 2 then
                 Tuple.first (List.foldl calcTwoPair ( 0, 0 ) countLookup)
             else if pairCount == 1 then
                 Tuple.first (List.foldl calcOnePair ( 0, 0 ) countLookup)
@@ -188,4 +233,5 @@ compareHands hand1 hand2 =
 
 -- High Card Rank : 1 - 2010 points. EQ: Sum card values.
 -- One Pair : 2011 - 24858 points. EQ: 2002 + (PFi * 1826) + k
--- Two Pair: 24859 - x points. EQ: 18226 + ((P1i - 1) * ((P1okv - 1) * 13)) + (P2okv * 13) + k
+-- Two Pair: 24859 - 20109 points. EQ: 18226 + ((P1i - 1) * ((P1okv - 1) * 13)) + (P2okv * 13) + k
+-- Set: 20110 - x points. EQ: constant + (Si * 608) + k

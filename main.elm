@@ -11,20 +11,20 @@ straightOrder =
 
 
 hand1 =
-    [ "8S"
-    , "8C"
-    , "2C"
+    [ "AS"
     , "2C"
     , "3C"
+    , "4C"
+    , "5C"
     ]
 
 
 hand2 =
-    [ "7H"
-    , "7D"
-    , "6D"
-    , "6D"
-    , "AH"
+    [ "AH"
+    , "AD"
+    , "AD"
+    , "KD"
+    , "QH"
     ]
 
 

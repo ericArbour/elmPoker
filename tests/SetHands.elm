@@ -1,21 +1,21 @@
-module TwoPair exposing (..)
+module SetHands exposing (..)
 
 import CompareHands exposing (..)
 import Expect exposing (Expectation)
 import Test exposing (..)
 
 
-twoPair : Test
-twoPair =
-    describe "weakest two pair hand against the strongest two pair below it"
-        [ test "weakest two pair containing threes beats strongest single pair" <|
+setHands : Test
+setHands =
+    describe "weakest set hand against the strongest set below it"
+        [ test "weakest set beats strongest two pair" <|
             \_ ->
                 let
                     hand1 =
-                        [ "3S"
+                        [ "2S"
+                        , "2C"
+                        , "2C"
                         , "3C"
-                        , "2C"
-                        , "2C"
                         , "4C"
                         ]
 
@@ -23,18 +23,38 @@ twoPair =
                         [ "AH"
                         , "AD"
                         , "KD"
-                        , "QD"
-                        , "JH"
+                        , "KD"
+                        , "QH"
                         ]
                 in
                 Expect.equal GT (compareHands hand1 hand2)
-        , test "weakest two pair containing fours beats strongest two pair containing threes" <|
+        , test "weakest set of threes beats strongest set of twos" <|
+            \_ ->
+                let
+                    hand1 =
+                        [ "3S"
+                        , "3C"
+                        , "3C"
+                        , "2C"
+                        , "4C"
+                        ]
+
+                    hand2 =
+                        [ "2H"
+                        , "2D"
+                        , "2D"
+                        , "AD"
+                        , "KH"
+                        ]
+                in
+                Expect.equal GT (compareHands hand1 hand2)
+        , test "weakest set of fours beats strongest set of threes" <|
             \_ ->
                 let
                     hand1 =
                         [ "4S"
                         , "4C"
-                        , "2C"
+                        , "4C"
                         , "2C"
                         , "3C"
                         ]
@@ -42,19 +62,19 @@ twoPair =
                     hand2 =
                         [ "3H"
                         , "3D"
-                        , "2D"
-                        , "2D"
-                        , "AH"
+                        , "3D"
+                        , "AD"
+                        , "KH"
                         ]
                 in
                 Expect.equal GT (compareHands hand1 hand2)
-        , test "weakest two pair containing fives beats strongest two pair containing fours" <|
+        , test "weakest set of fives beats strongest set of fours" <|
             \_ ->
                 let
                     hand1 =
                         [ "5S"
                         , "5C"
-                        , "2C"
+                        , "5C"
                         , "2C"
                         , "3C"
                         ]
@@ -62,19 +82,19 @@ twoPair =
                     hand2 =
                         [ "4H"
                         , "4D"
-                        , "3D"
-                        , "3D"
-                        , "AH"
+                        , "4D"
+                        , "AD"
+                        , "KH"
                         ]
                 in
                 Expect.equal GT (compareHands hand1 hand2)
-        , test "weakest two pair containing sixes beats strongest two pair containing fives" <|
+        , test "weakest set of sixes beats strongest set of fives" <|
             \_ ->
                 let
                     hand1 =
                         [ "6S"
                         , "6C"
-                        , "2C"
+                        , "6C"
                         , "2C"
                         , "3C"
                         ]
@@ -82,19 +102,19 @@ twoPair =
                     hand2 =
                         [ "5H"
                         , "5D"
-                        , "4D"
-                        , "4D"
-                        , "AH"
+                        , "5D"
+                        , "AD"
+                        , "KH"
                         ]
                 in
                 Expect.equal GT (compareHands hand1 hand2)
-        , test "weakest two pair containing sevens beats strongest two pair containing sixes" <|
+        , test "weakest set of sevens beats strongest set of sixes" <|
             \_ ->
                 let
                     hand1 =
                         [ "7S"
                         , "7C"
-                        , "2C"
+                        , "7C"
                         , "2C"
                         , "3C"
                         ]
@@ -102,19 +122,19 @@ twoPair =
                     hand2 =
                         [ "6H"
                         , "6D"
-                        , "5D"
-                        , "5D"
-                        , "AH"
+                        , "6D"
+                        , "AD"
+                        , "KH"
                         ]
                 in
                 Expect.equal GT (compareHands hand1 hand2)
-        , test "weakest two pair containing eights beats strongest two pair containing sevens" <|
+        , test "weakest set of eights beats strongest set of sevens" <|
             \_ ->
                 let
                     hand1 =
                         [ "8S"
                         , "8C"
-                        , "2C"
+                        , "8C"
                         , "2C"
                         , "3C"
                         ]
@@ -122,19 +142,19 @@ twoPair =
                     hand2 =
                         [ "7H"
                         , "7D"
-                        , "6D"
-                        , "6D"
-                        , "AH"
+                        , "7D"
+                        , "AD"
+                        , "KH"
                         ]
                 in
                 Expect.equal GT (compareHands hand1 hand2)
-        , test "weakest two pair containing nines beats strongest two pair containing eights" <|
+        , test "weakest set of nines beats strongest set of eights" <|
             \_ ->
                 let
                     hand1 =
                         [ "9S"
                         , "9C"
-                        , "2C"
+                        , "9C"
                         , "2C"
                         , "3C"
                         ]
@@ -142,19 +162,19 @@ twoPair =
                     hand2 =
                         [ "8H"
                         , "8D"
-                        , "7D"
-                        , "7D"
-                        , "AH"
+                        , "8D"
+                        , "AD"
+                        , "KH"
                         ]
                 in
                 Expect.equal GT (compareHands hand1 hand2)
-        , test "weakest two pair containing tens beats strongest two pair containing nines" <|
+        , test "weakest set of tens beats strongest set of nines" <|
             \_ ->
                 let
                     hand1 =
                         [ "TS"
                         , "TC"
-                        , "2C"
+                        , "TC"
                         , "2C"
                         , "3C"
                         ]
@@ -162,19 +182,19 @@ twoPair =
                     hand2 =
                         [ "9H"
                         , "9D"
-                        , "8D"
-                        , "8D"
-                        , "AH"
+                        , "9D"
+                        , "AD"
+                        , "KH"
                         ]
                 in
                 Expect.equal GT (compareHands hand1 hand2)
-        , test "weakest two pair containing jacks beats strongest two pair containing tens" <|
+        , test "weakest set of jacks beats strongest set of tens" <|
             \_ ->
                 let
                     hand1 =
                         [ "JS"
                         , "JC"
-                        , "2C"
+                        , "JC"
                         , "2C"
                         , "3C"
                         ]
@@ -182,19 +202,19 @@ twoPair =
                     hand2 =
                         [ "TH"
                         , "TD"
-                        , "9D"
-                        , "9D"
-                        , "AH"
+                        , "TD"
+                        , "AD"
+                        , "KH"
                         ]
                 in
                 Expect.equal GT (compareHands hand1 hand2)
-        , test "weakest two pair containing fours queens strongest two pair containing jacks" <|
+        , test "weakest set of queens beats strongest set of jacks" <|
             \_ ->
                 let
                     hand1 =
                         [ "QS"
                         , "QC"
-                        , "2C"
+                        , "QC"
                         , "2C"
                         , "3C"
                         ]
@@ -202,19 +222,19 @@ twoPair =
                     hand2 =
                         [ "JH"
                         , "JD"
-                        , "TD"
-                        , "TD"
-                        , "AH"
+                        , "JD"
+                        , "AD"
+                        , "KH"
                         ]
                 in
                 Expect.equal GT (compareHands hand1 hand2)
-        , test "weakest two pair containing kings beats strongest two pair containing queens" <|
+        , test "weakest set of kings beats strongest set of queens" <|
             \_ ->
                 let
                     hand1 =
                         [ "KS"
                         , "KC"
-                        , "2C"
+                        , "KC"
                         , "2C"
                         , "3C"
                         ]
@@ -222,74 +242,29 @@ twoPair =
                     hand2 =
                         [ "QH"
                         , "QD"
-                        , "JD"
-                        , "JD"
-                        , "AH"
+                        , "QD"
+                        , "AD"
+                        , "KH"
                         ]
                 in
                 Expect.equal GT (compareHands hand1 hand2)
-        , test "weakest two pair containing aces beats strongest two pair containing kings" <|
+        , test "weakest set of aces beats strongest set of kings" <|
             \_ ->
                 let
                     hand1 =
                         [ "AS"
                         , "AC"
-                        , "2C"
-                        , "2C"
-                        , "3C"
-                        ]
-
-                    hand2 =
-                        [ "KH"
-                        , "KD"
-                        , "QD"
-                        , "QD"
-                        , "AH"
-                        ]
-                in
-                Expect.equal GT
-                    (compareHands hand1 hand2)
-        , test
-            "kings, second pair kicker beats weaker second pair kicker with stronger single card kicker"
-          <|
-            \_ ->
-                let
-                    hand1 =
-                        [ "KS"
-                        , "KC"
-                        , "3C"
-                        , "3C"
-                        , "2C"
-                        ]
-
-                    hand2 =
-                        [ "KH"
-                        , "KD"
-                        , "2D"
-                        , "2D"
-                        , "AH"
-                        ]
-                in
-                Expect.equal GT (compareHands hand1 hand2)
-        , test
-            "fours, second pair kicker beats weaker second pair kicker with stronger single card kicker"
-          <|
-            \_ ->
-                let
-                    hand1 =
-                        [ "4S"
-                        , "4C"
-                        , "3C"
-                        , "3C"
-                        , "2C"
-                        ]
-
-                    hand2 =
-                        [ "4S"
-                        , "4C"
-                        , "2C"
-                        , "2C"
                         , "AC"
+                        , "2C"
+                        , "3C"
+                        ]
+
+                    hand2 =
+                        [ "KH"
+                        , "KD"
+                        , "KD"
+                        , "AD"
+                        , "QH"
                         ]
                 in
                 Expect.equal GT (compareHands hand1 hand2)

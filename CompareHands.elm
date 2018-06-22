@@ -1,5 +1,6 @@
 module CompareHands exposing (compareHands)
 
+import Array exposing (..)
 import Dict exposing (..)
 import Tuple exposing (..)
 
@@ -34,17 +35,17 @@ cardIndex =
         [ ( "2", 0 ), ( "3", 1 ), ( "4", 2 ), ( "5", 3 ), ( "6", 4 ), ( "7", 5 ), ( "8", 6 ), ( "9", 7 ), ( "T", 8 ), ( "J", 9 ), ( "Q", 10 ), ( "K", 11 ), ( "A", 12 ) ]
 
 
-straightIndex : Dict String Int
-straightIndex =
+aceLowIndex : Dict String Int
+aceLowIndex =
     Dict.fromList
-        [ ( "A", 0 ), ( "2", 1 ), ( "3", 2 ), ( "4", 3 ), ( "5", 4 ), ( "6", 5 ), ( "7", 6 ), ( "8", 7 ), ( "9", 8 ), ( "T", 9 ), ( "J", 10 ), ( "Q", 11 ), ( "K", 12 ), ( "A", 13 ) ]
+        [ ( "A", 0 ), ( "2", 1 ), ( "3", 2 ), ( "4", 3 ), ( "5", 4 ), ( "6", 5 ), ( "7", 6 ), ( "8", 7 ), ( "9", 8 ), ( "T", 9 ), ( "J", 10 ), ( "Q", 11 ), ( "K", 12 ) ]
 
 
 dictLookup : Dict String Int -> String -> Int
 dictLookup dict face =
     let
         value =
-            get face dict
+            Dict.get face dict
     in
     case value of
         Just number ->
@@ -77,6 +78,11 @@ getOneKVal =
 getIndex : String -> Int
 getIndex =
     dictLookup cardIndex
+
+
+getAceLowIndex : String -> Int
+getAceLowIndex =
+    dictLookup aceLowIndex
 
 
 getFace : String -> String
@@ -159,8 +165,96 @@ sortFaces a b =
 checkStraight : List String -> Maybe String
 checkStraight hand =
     Debug.log "checkStraight"
-        (List.head
-            hand
+        (if List.length hand == 5 then
+            let
+                arrayHand =
+                    Array.fromList hand
+
+                first : Maybe String
+                first =
+                    Array.get 0 arrayHand
+
+                last : Maybe String
+                last =
+                    Array.get 4 arrayHand
+
+                aceHighResult : Maybe String
+                aceHighResult =
+                    case first of
+                        Just f ->
+                            case last of
+                                Just l ->
+                                    if getIndex f - getIndex l == 4 then
+                                        Just f
+                                    else
+                                        Nothing
+
+                                Nothing ->
+                                    Nothing
+
+                        Nothing ->
+                            Nothing
+
+                aceLowHand : Maybe (Array String)
+                aceLowHand =
+                    case first of
+                        Just f ->
+                            if f == "A" then
+                                Just (Array.push "A" (Array.slice 1 5 arrayHand))
+                            else
+                                Nothing
+
+                        Nothing ->
+                            Nothing
+
+                aceLowFirst : Maybe String
+                aceLowFirst =
+                    case aceLowHand of
+                        Just array ->
+                            Array.get 0 array
+
+                        Nothing ->
+                            Nothing
+
+                aceLowLast : Maybe String
+                aceLowLast =
+                    case aceLowHand of
+                        Just array ->
+                            Array.get 4 array
+
+                        Nothing ->
+                            Nothing
+
+                aceLowResult : Maybe String
+                aceLowResult =
+                    case aceLowFirst of
+                        Just f ->
+                            case aceLowLast of
+                                Just l ->
+                                    if getAceLowIndex f - getAceLowIndex l == 4 then
+                                        Just f
+                                    else
+                                        Nothing
+
+                                Nothing ->
+                                    Nothing
+
+                        Nothing ->
+                            Nothing
+            in
+            case aceHighResult of
+                Just face ->
+                    Just face
+
+                Nothing ->
+                    case aceLowResult of
+                        Just face ->
+                            Just face
+
+                        Nothing ->
+                            Nothing
+         else
+            Nothing
         )
 
 
@@ -196,7 +290,7 @@ transform hand =
             countMatches 3 countLookup
 
         isStraight =
-            checkStraight faces
+            checkStraight uniqueFaces
 
         value =
             if setCount == 1 then

@@ -5,11 +5,6 @@ import CompareHands exposing (compareHands)
 import Html exposing (..)
 
 
-straightOrder : Array String
-straightOrder =
-    Array.fromList [ "A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A" ]
-
-
 hand1 =
     [ "AS"
     , "2C"

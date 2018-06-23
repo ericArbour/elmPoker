@@ -90,6 +90,11 @@ getFace card =
     String.left 1 card
 
 
+getSuit : String -> String
+getSuit card =
+    String.right 1 card
+
+
 checkPairs : String -> List String -> List String
 checkPairs face hand =
     hand
@@ -144,6 +149,29 @@ calcSet item accum =
         Tuple.mapFirst (\x -> getTwoKVal (Tuple.first item) + x) accum
 
 
+calcStraight : String -> Int
+calcStraight highCard =
+    getIndex highCard + 27776
+
+
+calcUncleJoey : ( String, Int ) -> ( Int, Int ) -> ( Int, Int )
+calcUncleJoey item accum =
+    if Tuple.second item == 3 then
+        Tuple.mapFirst (\x -> (getIndex (Tuple.first item) * 13) + 28644 + x) accum
+    else if Tuple.second item == 2 then
+        Tuple.mapFirst (\x -> getOneKVal (Tuple.first item) + x) accum
+    else
+        ( 0, 0 )
+
+
+calcQuads : ( String, Int ) -> ( Int, Int ) -> ( Int, Int )
+calcQuads item accum =
+    if Tuple.second item == 4 then
+        Tuple.mapFirst (\x -> (getIndex (Tuple.first item) * 13) + 28811 + x) accum
+    else
+        Tuple.mapFirst (\x -> getOneKVal (Tuple.first item) + x) accum
+
+
 countMatches : Int -> List ( String, Int ) -> Int
 countMatches qty hand =
     List.foldl
@@ -164,98 +192,112 @@ sortFaces a b =
 
 checkStraight : List String -> Maybe String
 checkStraight hand =
-    Debug.log "checkStraight"
-        (if List.length hand == 5 then
-            let
-                arrayHand =
-                    Array.fromList hand
+    if List.length hand == 5 then
+        let
+            arrayHand =
+                Array.fromList hand
 
-                first : Maybe String
-                first =
-                    Array.get 0 arrayHand
+            first : Maybe String
+            first =
+                Array.get 0 arrayHand
 
-                last : Maybe String
-                last =
-                    Array.get 4 arrayHand
+            last : Maybe String
+            last =
+                Array.get 4 arrayHand
 
-                aceHighResult : Maybe String
-                aceHighResult =
-                    case first of
-                        Just f ->
-                            case last of
-                                Just l ->
-                                    if getIndex f - getIndex l == 4 then
-                                        Just f
-                                    else
-                                        Nothing
-
-                                Nothing ->
+            aceHighResult : Maybe String
+            aceHighResult =
+                case first of
+                    Just f ->
+                        case last of
+                            Just l ->
+                                if getIndex f - getIndex l == 4 then
+                                    Just f
+                                else
                                     Nothing
 
-                        Nothing ->
-                            Nothing
-
-                aceLowHand : Maybe (Array String)
-                aceLowHand =
-                    case first of
-                        Just f ->
-                            if f == "A" then
-                                Just (Array.push "A" (Array.slice 1 5 arrayHand))
-                            else
+                            Nothing ->
                                 Nothing
 
-                        Nothing ->
+                    Nothing ->
+                        Nothing
+
+            aceLowHand : Maybe (Array String)
+            aceLowHand =
+                case first of
+                    Just f ->
+                        if f == "A" then
+                            Just (Array.push "A" (Array.slice 1 5 arrayHand))
+                        else
                             Nothing
 
-                aceLowFirst : Maybe String
-                aceLowFirst =
-                    case aceLowHand of
-                        Just array ->
-                            Array.get 0 array
+                    Nothing ->
+                        Nothing
 
-                        Nothing ->
-                            Nothing
+            aceLowFirst : Maybe String
+            aceLowFirst =
+                case aceLowHand of
+                    Just array ->
+                        Array.get 0 array
 
-                aceLowLast : Maybe String
-                aceLowLast =
-                    case aceLowHand of
-                        Just array ->
-                            Array.get 4 array
+                    Nothing ->
+                        Nothing
 
-                        Nothing ->
-                            Nothing
+            aceLowLast : Maybe String
+            aceLowLast =
+                case aceLowHand of
+                    Just array ->
+                        Array.get 4 array
 
-                aceLowResult : Maybe String
-                aceLowResult =
-                    case aceLowFirst of
-                        Just f ->
-                            case aceLowLast of
-                                Just l ->
-                                    if getAceLowIndex f - getAceLowIndex l == 4 then
-                                        Just f
-                                    else
-                                        Nothing
+                    Nothing ->
+                        Nothing
 
-                                Nothing ->
+            aceLowResult : Maybe String
+            aceLowResult =
+                case aceLowFirst of
+                    Just f ->
+                        case aceLowLast of
+                            Just l ->
+                                if getAceLowIndex f - getAceLowIndex l == 4 then
+                                    Just f
+                                else
                                     Nothing
 
-                        Nothing ->
-                            Nothing
-            in
-            case aceHighResult of
-                Just face ->
-                    Just face
+                            Nothing ->
+                                Nothing
 
-                Nothing ->
-                    case aceLowResult of
-                        Just face ->
-                            Just face
+                    Nothing ->
+                        Nothing
+        in
+        case aceHighResult of
+            Just face ->
+                Just face
 
-                        Nothing ->
-                            Nothing
-         else
-            Nothing
-        )
+            Nothing ->
+                case aceLowResult of
+                    Just face ->
+                        Just face
+
+                    Nothing ->
+                        Nothing
+    else
+        Nothing
+
+
+checkFlush : List String -> Bool
+checkFlush hand =
+    if
+        List.length
+            (List.foldr
+                removeDups
+                []
+                (List.map getSuit hand)
+            )
+            == 1
+    then
+        True
+    else
+        False
 
 
 transform : List String -> Int
@@ -289,18 +331,38 @@ transform hand =
         setCount =
             countMatches 3 countLookup
 
+        quadCount =
+            countMatches 4 countLookup
+
         isStraight =
             checkStraight uniqueFaces
 
+        isFlush =
+            checkFlush hand
+
         value =
-            if setCount == 1 then
-                Tuple.first (List.foldl calcSet ( 0, 0 ) countLookup)
-            else if pairCount == 2 then
-                Tuple.first (List.foldl calcTwoPair ( 0, 0 ) countLookup)
-            else if pairCount == 1 then
-                Tuple.first (List.foldl calcOnePair ( 0, 0 ) countLookup)
-            else
-                Tuple.first (List.foldl calcHighCard ( 0, 0 ) countLookup)
+            case isStraight of
+                Just highCard ->
+                    if isFlush then
+                        calcStraight highCard + 1201
+                    else
+                        calcStraight highCard
+
+                Nothing ->
+                    if quadCount == 1 then
+                        Tuple.first (List.foldl calcQuads ( 0, 0 ) countLookup)
+                    else if setCount == 1 && pairCount == 1 then
+                        Tuple.first (List.foldl calcUncleJoey ( 0, 0 ) countLookup)
+                    else if isFlush then
+                        Tuple.first (List.foldl calcHighCard ( 0, 0 ) countLookup) + 27773
+                    else if setCount == 1 then
+                        Tuple.first (List.foldl calcSet ( 0, 0 ) countLookup)
+                    else if pairCount == 2 then
+                        Tuple.first (List.foldl calcTwoPair ( 0, 0 ) countLookup)
+                    else if pairCount == 1 then
+                        Tuple.first (List.foldl calcOnePair ( 0, 0 ) countLookup)
+                    else
+                        Tuple.first (List.foldl calcHighCard ( 0, 0 ) countLookup)
     in
     value
 

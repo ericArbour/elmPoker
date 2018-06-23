@@ -6,7 +6,7 @@ import Html exposing (..)
 
 
 hand1 =
-    [ "AS"
+    [ "AC"
     , "2C"
     , "3C"
     , "4C"
@@ -18,8 +18,8 @@ hand2 =
     [ "AH"
     , "AD"
     , "AD"
-    , "KD"
-    , "QH"
+    , "AD"
+    , "KH"
     ]
 
 

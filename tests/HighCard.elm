@@ -1,6 +1,6 @@
 module HighCard exposing (..)
 
-import CompareHands exposing (..)
+import CompareHands.CompareHands exposing (..)
 import Expect exposing (Expectation)
 import Test exposing (..)
 

@@ -1,6 +1,6 @@
 module Flushes exposing (..)
 
-import CompareHands exposing (..)
+import CompareHands.CompareHands exposing (compareHands)
 import Expect exposing (Expectation)
 import Test exposing (..)
 

@@ -6,20 +6,28 @@ import Deck exposing (deck)
 import Html exposing (..)
 import Html.Events exposing (..)
 import Random exposing (..)
+import Time exposing (Time, second)
 
 
 type alias Model =
-    { current : Int, hand1 : List String, hand2 : List String, deck : Array String, limit : Int }
+    { current : Int
+    , hand1 : ( List String, String )
+    , hand2 : ( List String, String )
+    , deck : Array String
+    , limit : Int
+    , result : Maybe Order
+    }
 
 
 initModel : ( Model, Cmd Msg )
 initModel =
-    ( Model 1 [] [] deck 5, Cmd.none )
+    ( Model 1 ( [], "" ) ( [], "" ) deck 5 Nothing, Cmd.none )
 
 
 type Msg
-    = DrawCard
+    = DrawCard Time
     | DealCard Int
+    | Evaluate
 
 
 intToCard : Int -> Array String -> String
@@ -35,54 +43,44 @@ intToCard index deck =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        DrawCard ->
+        DrawCard newTime ->
             ( model, Random.generate DealCard (Random.int 0 (Array.length model.deck - 1)) )
 
         DealCard cardInt ->
-            if model.current == 1 then
-                if List.length model.hand1 == model.limit then
-                    ( model, Cmd.none )
-                else
-                    ( { model
-                        | hand1 = intToCard cardInt model.deck :: model.hand1
-                        , hand2 = model.hand2
-                        , deck = Array.filter (\card -> card /= intToCard cardInt model.deck) model.deck
-                        , current = 2
-                      }
-                    , Cmd.none
-                    )
-            else if model.current == 2 then
-                if List.length model.hand2 == model.limit then
-                    ( model, Cmd.none )
-                else
-                    ( { model
-                        | hand1 = model.hand1
-                        , hand2 = intToCard cardInt model.deck :: model.hand2
-                        , deck = Array.filter (\card -> card /= intToCard cardInt model.deck) model.deck
-                        , current = 1
-                      }
-                    , Cmd.none
-                    )
+            if (model.hand1 |> Tuple.first |> List.length) == model.limit && (model.hand2 |> Tuple.first |> List.length) == model.limit then
+                ( model, Cmd.none )
+            else if (model.hand1 |> Tuple.first |> List.length) /= model.limit && model.current == 1 then
+                ( { model
+                    | hand1 = Tuple.mapFirst (\hand -> intToCard cardInt model.deck :: hand) model.hand1
+                    , deck = Array.filter (\card -> card /= intToCard cardInt model.deck) model.deck
+                    , current = 2
+                  }
+                , Cmd.none
+                )
+            else if (model.hand2 |> Tuple.first |> List.length) /= model.limit && model.current == 2 then
+                ( { model
+                    | hand2 = Tuple.mapFirst (\hand -> intToCard cardInt model.deck :: hand) model.hand2
+                    , deck = Array.filter (\card -> card /= intToCard cardInt model.deck) model.deck
+                    , current = 1
+                  }
+                , Cmd.none
+                )
             else
                 ( model, Cmd.none )
+
+        Evaluate ->
+            ( model, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
-
-
-test : Msg
-test =
-    DrawCard
+    Time.every second DrawCard
 
 
 view : Model -> Html Msg
 view model =
     div []
         [ h1 [] [ text (toString model) ]
-        , button [ onClick test ] [ text "Draw " ]
-        , div [] []
         ]
 
 

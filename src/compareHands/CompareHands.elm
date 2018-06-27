@@ -77,12 +77,10 @@ compareHands : List String -> List String -> Order
 compareHands hand1 hand2 =
     let
         value1 =
-            Debug.log "hand1"
-                (transform hand1)
+            transform hand1
 
         value2 =
-            Debug.log "hand2"
-                (transform hand2)
+            transform hand2
     in
     if value1 > value2 then
         GT

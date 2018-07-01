@@ -1,6 +1,6 @@
 module Quads exposing (..)
 
-import CompareHands.CompareHands exposing (..)
+import CompareHands.CompareHands exposing (justOrder)
 import Expect exposing (Expectation)
 import Test exposing (..)
 
@@ -27,7 +27,7 @@ quads =
                         , "KH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest quad threes beats strongest quad twos" <|
             \_ ->
                 let
@@ -47,7 +47,7 @@ quads =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest quad fours beats strongest quad threes" <|
             \_ ->
                 let
@@ -67,7 +67,7 @@ quads =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest quad fives beats strongest quad fours" <|
             \_ ->
                 let
@@ -87,7 +87,7 @@ quads =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest quad sixes beats strongest quad fives" <|
             \_ ->
                 let
@@ -107,7 +107,7 @@ quads =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest quad sevens beats strongest quad sixes" <|
             \_ ->
                 let
@@ -127,7 +127,7 @@ quads =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest quad eights beats strongest quad sevens" <|
             \_ ->
                 let
@@ -147,7 +147,7 @@ quads =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest quad nines beats strongest quad eights" <|
             \_ ->
                 let
@@ -167,7 +167,7 @@ quads =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest quad tens beats strongest quad nines" <|
             \_ ->
                 let
@@ -187,7 +187,7 @@ quads =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest quad jacks beats strongest quad tens" <|
             \_ ->
                 let
@@ -207,7 +207,7 @@ quads =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest quad queens beats strongest quad jacks" <|
             \_ ->
                 let
@@ -227,7 +227,7 @@ quads =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest quad kings beats strongest quad queens" <|
             \_ ->
                 let
@@ -247,7 +247,7 @@ quads =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest quad aces beats strongest quad kings" <|
             \_ ->
                 let
@@ -267,5 +267,5 @@ quads =
                         , "QH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         ]

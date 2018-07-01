@@ -1,6 +1,6 @@
 module HighCard exposing (..)
 
-import CompareHands.CompareHands exposing (..)
+import CompareHands.CompareHands exposing (justOrder)
 import Expect exposing (Expectation)
 import Test exposing (..)
 
@@ -27,7 +27,7 @@ highCardRank =
                         , "QH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest king high beats strongest queen high" <|
             \_ ->
                 let
@@ -47,7 +47,7 @@ highCardRank =
                         , "JH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest queen high beats strongest jack high" <|
             \_ ->
                 let
@@ -67,7 +67,7 @@ highCardRank =
                         , "TH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest jack high beats strongest ten high" <|
             \_ ->
                 let
@@ -87,7 +87,7 @@ highCardRank =
                         , "9H"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest ten high beats strongest nine high" <|
             \_ ->
                 let
@@ -107,7 +107,7 @@ highCardRank =
                         , "8H"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest nine high beats strongest eight high" <|
             \_ ->
                 let
@@ -127,7 +127,7 @@ highCardRank =
                         , "7H"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest eight high beats strongest seven high" <|
             \_ ->
                 let
@@ -147,5 +147,5 @@ highCardRank =
                         , "6H"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         ]

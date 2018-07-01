@@ -1,6 +1,6 @@
 module UncleJoey exposing (..)
 
-import CompareHands.CompareHands exposing (..)
+import CompareHands.CompareHands exposing (justOrder)
 import Expect exposing (Expectation)
 import Test exposing (..)
 
@@ -27,7 +27,7 @@ uncleJoey =
                         , "9S"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "threes over twos beats twos over aces" <|
             \_ ->
                 let
@@ -47,7 +47,7 @@ uncleJoey =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "fours over twos beats threes over aces" <|
             \_ ->
                 let
@@ -67,7 +67,7 @@ uncleJoey =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "fives over twos beats fours over aces" <|
             \_ ->
                 let
@@ -87,7 +87,7 @@ uncleJoey =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "sixes over twos beats fives over aces" <|
             \_ ->
                 let
@@ -107,7 +107,7 @@ uncleJoey =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "sevens over twos beats sixes over aces" <|
             \_ ->
                 let
@@ -127,7 +127,7 @@ uncleJoey =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "eights over twos sevens twos over aces" <|
             \_ ->
                 let
@@ -147,7 +147,7 @@ uncleJoey =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "nines over twos beats eights over aces" <|
             \_ ->
                 let
@@ -167,7 +167,7 @@ uncleJoey =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "tens over twos beats nines over aces" <|
             \_ ->
                 let
@@ -187,7 +187,7 @@ uncleJoey =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "jacks over twos beats tens over aces" <|
             \_ ->
                 let
@@ -207,7 +207,7 @@ uncleJoey =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "queens over twos beats jacks over aces" <|
             \_ ->
                 let
@@ -227,7 +227,7 @@ uncleJoey =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "kings over twos beats queens over aces" <|
             \_ ->
                 let
@@ -247,7 +247,7 @@ uncleJoey =
                         , "AH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "aces over twos beats kings over aces" <|
             \_ ->
                 let
@@ -267,5 +267,5 @@ uncleJoey =
                         , "QH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         ]

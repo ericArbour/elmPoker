@@ -1,6 +1,6 @@
 module StraightFlush exposing (..)
 
-import CompareHands.CompareHands exposing (..)
+import CompareHands.CompareHands exposing (justOrder)
 import Expect exposing (Expectation)
 import Test exposing (..)
 
@@ -27,7 +27,7 @@ straightFlush =
                         , "KH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "six high straight flush beats five high straight flush" <|
             \_ ->
                 let
@@ -47,7 +47,7 @@ straightFlush =
                         , "5D"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "seven high straight flush beats six high straight flush" <|
             \_ ->
                 let
@@ -67,7 +67,7 @@ straightFlush =
                         , "6D"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "eight high straight flush beats seven high straight flush" <|
             \_ ->
                 let
@@ -87,7 +87,7 @@ straightFlush =
                         , "7D"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "nine high straight flush beats eight high straight flush" <|
             \_ ->
                 let
@@ -107,7 +107,7 @@ straightFlush =
                         , "8D"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "ten high straight flush beats nine high straight flush" <|
             \_ ->
                 let
@@ -127,7 +127,7 @@ straightFlush =
                         , "9D"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "jack high straight flush beats ten high straight flush" <|
             \_ ->
                 let
@@ -147,7 +147,7 @@ straightFlush =
                         , "TC"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "queen high straight flush beats jack high straight flush" <|
             \_ ->
                 let
@@ -167,7 +167,7 @@ straightFlush =
                         , "JH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "king high straight flush beats queen high straight flush" <|
             \_ ->
                 let
@@ -187,7 +187,7 @@ straightFlush =
                         , "QD"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "ace high straight flush beats king high straight flush" <|
             \_ ->
                 let
@@ -207,5 +207,5 @@ straightFlush =
                         , "KH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         ]

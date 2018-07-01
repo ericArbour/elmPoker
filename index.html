@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    Elm Poker
+  </head>
+  <body>
+    <div id="root">
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
+    <script src="elm.js"></script>
+    <script>
+      var config = {
+        apiKey: "AIzaSyA7ry9WcNvDWm22EZJra5JZ6FNUQ9v_dCc",
+        authDomain: "elmpoker-9f322.firebaseapp.com",
+        databaseURL: "https://elmpoker-9f322.firebaseio.com",
+        projectId: "elmpoker-9f322",
+        storageBucket: "elmpoker-9f322.appspot.com",
+        messagingSenderId: "141805843448"
+      };
+      firebase.initializeApp(config);
+      var database = firebase.firestore();
+      var app = Elm.Main.fullscreen();
+      app.ports.submit.subscribe(function(model) {
+      	database.collection('results').add(model);
+        console.log('send');
+      });
+    </script>
+  </body>
+</html>

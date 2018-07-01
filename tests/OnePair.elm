@@ -1,6 +1,6 @@
 module OnePair exposing (..)
 
-import CompareHands.CompareHands exposing (..)
+import CompareHands.CompareHands exposing (justOrder)
 import Expect exposing (Expectation)
 import Test exposing (..)
 
@@ -27,7 +27,7 @@ onePair =
                         , "9H"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest pair of threes beats strongest pair of twos" <|
             \_ ->
                 let
@@ -47,7 +47,7 @@ onePair =
                         , "QH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest pair of fours beats strongest pair of threes" <|
             \_ ->
                 let
@@ -67,7 +67,7 @@ onePair =
                         , "QH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest pair of fives beats strongest pair of fours" <|
             \_ ->
                 let
@@ -87,7 +87,7 @@ onePair =
                         , "QH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest pair of sixes beats strongest pair of fives" <|
             \_ ->
                 let
@@ -107,7 +107,7 @@ onePair =
                         , "QH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest pair of sevens beats strongest pair of sixes" <|
             \_ ->
                 let
@@ -127,7 +127,7 @@ onePair =
                         , "QH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest pair of eights beats strongest pair of sevens" <|
             \_ ->
                 let
@@ -147,7 +147,7 @@ onePair =
                         , "QH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest pair of nines beats strongest pair of eights" <|
             \_ ->
                 let
@@ -167,7 +167,7 @@ onePair =
                         , "QH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest pair of tens beats strongest pair of nines" <|
             \_ ->
                 let
@@ -187,7 +187,7 @@ onePair =
                         , "QH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest jacks of threes beats strongest pair of tens" <|
             \_ ->
                 let
@@ -207,7 +207,7 @@ onePair =
                         , "QH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest queens of threes beats strongest pair of jacks" <|
             \_ ->
                 let
@@ -227,7 +227,7 @@ onePair =
                         , "QH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest pair of kings beats strongest pair of queens" <|
             \_ ->
                 let
@@ -247,7 +247,7 @@ onePair =
                         , "JH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "weakest pair of aces beats strongest pair of kings" <|
             \_ ->
                 let
@@ -267,7 +267,7 @@ onePair =
                         , "JH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         , test "pair of jacks with higher kicker wins" <|
             \_ ->
                 let
@@ -287,5 +287,5 @@ onePair =
                         , "JH"
                         ]
                 in
-                Expect.equal GT (compareHands hand1 hand2)
+                Expect.equal GT (justOrder hand1 hand2)
         ]

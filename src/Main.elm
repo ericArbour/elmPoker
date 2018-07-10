@@ -1,11 +1,14 @@
-port module Main exposing (main)
+module Main exposing (main)
 
 import Array exposing (..)
 import CompareHands.CompareHands exposing (Result, compareHands)
 import Deck exposing (deck)
 import Html exposing (..)
+import Http exposing (..)
 import Random exposing (..)
 import Time exposing (Time, millisecond)
+import Json.Decode as Decode exposing (..)
+import Json.Encode as Encode exposing (..)
 
 
 type alias Model =
@@ -19,12 +22,12 @@ type alias Model =
 
 
 type alias Outcome =
-    { hand1 : List String
-    , hand2 : List String
+    { hand1 : String
+    , hand2 : String
     , hand1Type : String
     , hand2Type : String
-    , order : String
-    , deck : Array String
+    , result : String
+    , deck : String
     }
 
 
@@ -43,6 +46,8 @@ type Msg
     | DealCard Int
     | Evaluate
     | Submit
+    | GoodData
+    | BadData Http.Error
 
 
 intToCard : Int -> Array String -> String
@@ -89,17 +94,64 @@ update msg model =
         Submit ->
             ( initModel
             , submit
-                { hand1 = model.hand1
-                , hand2 = model.hand2
+                { hand1 = toString model.hand1
+                , hand2 = toString model.hand2
                 , hand1Type = model.result.hand1
                 , hand2Type = model.result.hand2
-                , order = toString model.result.order
-                , deck = model.deck
+                , result = toString model.result.order
+                , deck = toString (Array.toList model.deck)
                 }
             )
 
+        GoodData->
+            (model, Cmd.none)
 
-port submit : Outcome -> Cmd msg
+        BadData error ->
+            (model, Cmd.none)
+
+
+
+submit : Outcome -> Cmd Msg
+submit outcome =
+  let
+    url =
+      "http://localhost:64483/api/showdowns"
+
+    body =
+        Debug.log "outcome"
+        outcome
+            |> outcomeEncoder
+            |> Http.jsonBody
+
+    request =
+      Http.post url body outcomeDecoder
+  in
+    Http.send completedData request
+
+completedData : Result.Result Http.Error a -> Msg
+completedData result =
+    case result of
+        Ok data ->
+            GoodData 
+
+        Err error ->
+            BadData error
+
+
+outcomeEncoder : Outcome -> Encode.Value
+outcomeEncoder outcome = 
+    Encode.object 
+        [ ("hand1", Encode.string outcome.hand1)
+        , ("hand2", Encode.string outcome.hand2)
+        , ("hand1Type", Encode.string outcome.hand1Type)
+        , ("hand2Type", Encode.string outcome.hand2Type)
+        , ("result", Encode.string outcome.result)
+        , ("deck", Encode.string outcome.deck) 
+        ]      
+
+outcomeDecoder : Decoder String
+outcomeDecoder =
+    Decode.field "access_token" Decode.string 
 
 
 subscriptions : Model -> Sub Msg

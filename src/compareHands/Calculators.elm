@@ -1,6 +1,6 @@
 module CompareHands.Calculators exposing (..)
 
-import CompareHands.GetValues exposing (getFiveKVal, getIndex, getOneKVal, getThreeKVal, getTwoKVal)
+import CompareHands.GetValues exposing (getFiveKVal, getIndex, getOneKVal, getTwoKVal)
 
 
 calcHighCard : ( String, Int ) -> ( Int, Int ) -> ( Int, Int )
@@ -11,9 +11,9 @@ calcHighCard item accum =
 calcOnePair : ( String, Int ) -> ( Int, Int ) -> ( Int, Int )
 calcOnePair item accum =
     if Tuple.second item == 2 then
-        Tuple.mapFirst (\x -> (getIndex (Tuple.first item) * 1385) + 864 + x) accum
+        Tuple.mapFirst (\x -> (getIndex (Tuple.first item) * 2210) + 2427 + x) accum
     else
-        Tuple.mapFirst (\x -> getThreeKVal (Tuple.first item) + x) accum
+        Tuple.mapFirst (\x -> getFiveKVal (Tuple.first item) + x) accum
 
 
 calcTwoPair : ( String, Int ) -> ( Int, Int ) -> ( Int, Int )
@@ -24,7 +24,7 @@ calcTwoPair item accum =
                 incrAccum =
                     Tuple.mapSecond (\x -> x + 1) accum
             in
-            Tuple.mapFirst (\x -> (getOneKVal (Tuple.first item) - 2) * ((getOneKVal (Tuple.first item) - 1) * 13) + 18226 + x) incrAccum
+            Tuple.mapFirst (\x -> (getOneKVal (Tuple.first item) - 2) * ((getOneKVal (Tuple.first item) - 1) * 13) + 31157 + x) incrAccum
         else
             Tuple.mapFirst (\x -> (getOneKVal (Tuple.first item) * 13) + x) accum
     else
@@ -34,20 +34,20 @@ calcTwoPair item accum =
 calcSet : ( String, Int ) -> ( Int, Int ) -> ( Int, Int )
 calcSet item accum =
     if Tuple.second item == 3 then
-        Tuple.mapFirst (\x -> (getIndex (Tuple.first item) * 608) + 20105 + x) accum
+        Tuple.mapFirst (\x -> (getIndex (Tuple.first item) * 608) + 33042 + x) accum
     else
         Tuple.mapFirst (\x -> getTwoKVal (Tuple.first item) + x) accum
 
 
 calcStraight : String -> Int
 calcStraight highCard =
-    getIndex highCard + 27776
+    getIndex highCard + 40948
 
 
 calcUncleJoey : ( String, Int ) -> ( Int, Int ) -> ( Int, Int )
 calcUncleJoey item accum =
     if Tuple.second item == 3 then
-        Tuple.mapFirst (\x -> (getIndex (Tuple.first item) * 13) + 28644 + x) accum
+        Tuple.mapFirst (\x -> (getIndex (Tuple.first item) * 13) + 43387 + x) accum
     else if Tuple.second item == 2 then
         Tuple.mapFirst (\x -> getOneKVal (Tuple.first item) + x) accum
     else
@@ -57,6 +57,6 @@ calcUncleJoey item accum =
 calcQuads : ( String, Int ) -> ( Int, Int ) -> ( Int, Int )
 calcQuads item accum =
     if Tuple.second item == 4 then
-        Tuple.mapFirst (\x -> (getIndex (Tuple.first item) * 13) + 28811 + x) accum
+        Tuple.mapFirst (\x -> (getIndex (Tuple.first item) * 13) + 43556 + x) accum
     else
         Tuple.mapFirst (\x -> getOneKVal (Tuple.first item) + x) accum

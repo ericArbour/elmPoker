@@ -57,7 +57,7 @@ transform hand =
             case isStraight of
                 Just highCard ->
                     if isFlush then
-                        ( calcStraight highCard + 1201, "Straight Flush" )
+                        ( calcStraight highCard + 43725, "Straight Flush" )
                     else
                         ( calcStraight highCard, "Straight" )
 
@@ -67,7 +67,7 @@ transform hand =
                     else if setCount == 1 && pairCount == 1 then
                         ( Tuple.first (List.foldl calcUncleJoey ( 0, 0 ) countLookup), "Uncle Joey" )
                     else if isFlush then
-                        ( Tuple.first (List.foldl calcHighCard ( 0, 0 ) countLookup) + 27773, "Flush" )
+                        ( Tuple.first (List.foldl calcHighCard ( 0, 0 ) countLookup) + 40960, "Flush" )
                     else if setCount == 1 then
                         ( Tuple.first (List.foldl calcSet ( 0, 0 ) countLookup), "Set" )
                     else if pairCount == 2 then

@@ -1,4 +1,4 @@
-module CompareHands.GetValues exposing (getAceLowIndex, getFiveKVal, getIndex, getOneKVal, getThreeKVal, getTwoKVal)
+module CompareHands.GetValues exposing (getAceLowIndex, getFiveKVal, getIndex, getOneKVal, getTwoKVal)
 
 import Dict exposing (..)
 
@@ -6,13 +6,7 @@ import Dict exposing (..)
 fiveKVal : Dict String Int
 fiveKVal =
     Dict.fromList
-        [ ( "2", 1 ), ( "3", 2 ), ( "4", 3 ), ( "5", 4 ), ( "6", 5 ), ( "7", 6 ), ( "8", 10 ), ( "9", 18 ), ( "T", 33 ), ( "J", 62 ), ( "Q", 119 ), ( "K", 229 ), ( "A", 444 ) ]
-
-
-threeKVal : Dict String Int
-threeKVal =
-    Dict.fromList
-        [ ( "2", 1 ), ( "3", 2 ), ( "4", 3 ), ( "5", 4 ), ( "6", 7 ), ( "7", 12 ), ( "8", 20 ), ( "9", 37 ), ( "T", 67 ), ( "J", 122 ), ( "Q", 224 ), ( "K", 411 ), ( "A", 755 ) ]
+        [ ( "2", 1 ), ( "3", 2 ), ( "4", 3 ), ( "5", 5 ), ( "6", 8 ), ( "7", 14 ), ( "8", 25 ), ( "9", 47 ), ( "T", 89 ), ( "J", 170 ), ( "Q", 329 ), ( "K", 639 ), ( "A", 1242 ) ]
 
 
 twoKVal : Dict String Int
@@ -56,11 +50,6 @@ dictLookup dict face =
 getFiveKVal : String -> Int
 getFiveKVal =
     dictLookup fiveKVal
-
-
-getThreeKVal : String -> Int
-getThreeKVal =
-    dictLookup threeKVal
 
 
 getTwoKVal : String -> Int
